@@ -1,0 +1,22 @@
+<html>
+<head>
+    <style>
+        h1 { font-size: 150%; }
+        body { font-family: Helvetica, Arial, sans-serif; }
+        th { text-align: right; }
+    </style>
+</head>
+<body>
+    <h1>{{ submission.formName }}</h1>
+    <table>
+        {% for field in submission.fields %}
+            <tr>
+                <th>{{ field.name }}</th>
+                <td>{{ field.value }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <hr />
+    <p><em>{{ submission.created | date }}</em></p>
+</body>
+</html>

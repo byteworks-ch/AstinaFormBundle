@@ -1,0 +1,38 @@
+{% extends 'AstinaFormBundle:Admin:layout.html.twig' %}
+
+{% import 'AstinaAdminBundle:Macro:util.html.twig' as util %}
+
+{% block content %}
+
+    <div class="page-header">
+        <div class="btn-group pull-right">
+            <a href="{{ path('astina_form_admin') }}" class="btn"><i class="icon-arrow-left"></i> {{ 'back' | trans }}</a>
+        </div>
+        <h1>{{ 'forms' | trans }}: {{ form.name }} ({{ form.web }})</h1>
+    </div>
+
+    <p>
+        {{ 'form_page' | trans }}: <a href="{{ path('webcms_node_view', {'id': form.page.id}) }}">{{ form.page.title }}</a>
+        (<a href="{{ webcms_path(form.page) }}" target="_blank">{{ webcms_path(form.page) }}</a>)
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ 'form_submission' | trans }}</th>
+            <th>{{ 'form_submission_date' | trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for submission in submissions %}
+            <tr>
+                <td><a href="{{ path('astina_form_submission', {'id': submission.id}) }}">{{ submission.summary | truncate(100) }}</a></td>
+                <td>{{ submission.created | date('d.m.Y H:i') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ util.pagination(pages, page, 'astina_form_view', {'id': form.id}) }}
+
+{% endblock %}

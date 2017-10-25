@@ -1,0 +1,70 @@
+{% extends 'AstinaFormBundle:Admin:layout.html.twig' %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>{{ 'forms' | trans }}</h1>
+    </div>
+
+    <form method="post" action="{{ path('astina_form_export') }}">
+
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>{{ 'form_name' | trans }}</th>
+                <th>{{ 'form_page' | trans }}</th>
+                <th>{{ 'form_url' | trans }}</th>
+                <th>{{ 'form_submissions_count' | trans }}</th>
+                <th>
+                    <button type="submit" class="btn"><i class="icon-download"></i> {{ 'export' | trans }}</button>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="5">
+                <h3>Published</h3>
+                </td>
+            </tr>
+
+                {% for form in forms if form.status == 'published' and form.page.status == 'published' %}
+                    <tr>
+                        <td>
+                            <strong><a href="{{ path('astina_form_view', {'id': form.id}) }}">{{ form.name }}</a></strong>
+                            ({{ form.web }})
+                        </td>
+                        <td><a href="{{ path('webcms_node_view', {'id': form.page.id}) }}#area{{ form.area.id }}">{{ form.page.title }}</a></td>
+                        <td><a href="{{ webcms_path(form.page) }}" target="_blank">{{ webcms_path(form.page) }}</a></td>
+                        <td>{{ form.submissions | length }}</td>
+                        <td style="width: 120px; text-align: center;">
+                            <input type="checkbox" name="forms[]" value="{{ form.id }}" />
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tbody>
+            <tr>
+                <td colspan="5">
+                <h3>Unpublished</h3>
+                </td>
+            </tr>
+            {% for form in forms if form.status != 'published' or form.page.status != 'published' %}
+                <tr>
+                    <td>
+                        <strong><a href="{{ path('astina_form_view', {'id': form.id}) }}">{{ form.name }}</a></strong>
+                        ({{ form.web }})
+                    </td>
+                    <td><a href="{{ path('webcms_node_view', {'id': form.page.id}) }}#area{{ form.area.id }}">{{ form.page.title }}</a></td>
+                    <td><a href="{{ webcms_path(form.page) }}" target="_blank">{{ webcms_path(form.page) }}</a></td>
+                    <td>{{ form.submissions | length }}</td>
+                    <td style="width: 120px; text-align: center;">
+                        <input type="checkbox" name="forms[]" value="{{ form.id }}" />
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </form>
+
+{% endblock %}

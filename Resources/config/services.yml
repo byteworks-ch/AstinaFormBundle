@@ -1,0 +1,133 @@
+parameters:
+    astina_form.form_type: 'webcms_form'
+    astina_form.form.class: Astina\Bundle\FormBundle\Form\FormType
+    astina_form.form_config.class: Astina\Bundle\FormBundle\Form\FormConfigType
+    astina_form.form_config_field.class: Astina\Bundle\FormBundle\Form\FormConfigFieldType
+    astina_form.form_tracker.class: Astina\Bundle\FormBundle\Form\FormTracker
+    
+    astina_form.notification_mailer.class: Astina\Bundle\FormBundle\Mail\NotificationMailer
+    astina_form.notification_mailer.template: AstinaFormBundle:Mail:notification.html.twig
+    astina_form.notification_mailer.from_address: no-reply@astina.ch
+    
+    astina_form.confirmation_mailer.class: Astina\Bundle\FormBundle\Mail\ConfirmationMailer
+    astina_form.confirmation_mailer.from_address: no-reply@astina.ch
+    
+    astina_form.event_listener.submit_listener.class: Astina\Bundle\FormBundle\EventListener\SubmitListener
+    astina_form.event_listener.success_listener.class: Astina\Bundle\FormBundle\EventListener\SuccessListener
+    
+    astina_form.submissions_exporter.class: Astina\Bundle\FormBundle\Export\SubmissionsExporter
+    astina_form.submissions_exporter.temp_dir: %kernel.cache_dir%
+    astina_form.twig_extension.class: Astina\Bundle\FormBundle\Twig\FormExtension
+
+
+services:
+    astina_form.form:
+        class: %astina_form.form.class%
+        arguments:
+            - @astina_webcms.router
+        tags:
+            - { name: form.type, alias: webcms_form }
+
+    astina_form.form_config:
+        class: %astina_form.form_config.class%
+        arguments:
+            - @astina_form.repository.form_config_field
+            - @doctrine
+        tags:
+            - { name: form.type, alias: webcms_form_config }
+
+    astina_form.form_config_field:
+        class: %astina_form.form_config_field.class%
+        tags:
+            - { name: form.type, alias: webcms_form_config_field }
+
+    astina_form.form_tracker:
+        class: %astina_form.form_tracker.class%
+        arguments:
+            - @form.factory
+            - @astina_webcms.router
+            - @event_dispatcher
+            - %astina_form.form_type%
+
+    astina_form.notification_mailer:
+        class: %astina_form.notification_mailer.class%
+        arguments:
+            - @mailer
+            - @templating
+            - %astina_form.notification_mailer.template%
+            - %astina_form.notification_mailer.from_address%
+            
+    astina_form.confirmation_mailer:
+        class: %astina_form.confirmation_mailer.class%
+        arguments:
+            - @mailer
+            - %astina_form.confirmation_mailer.from_address%
+            - @logger
+
+    astina_form.event_listener.submit_listener:
+        class: %astina_form.event_listener.submit_listener.class%
+        arguments:
+            - @astina_form.form_tracker
+            - @astina_form.repository.form_config
+            - @astina_webcms.router
+            - %astina_form.form_type%
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    astina_form.event_listener.success_listener:
+        class: %astina_form.event_listener.success_listener.class%
+        arguments:
+            - @astina_form.repository.form_submission
+            - @astina_form.notification_mailer
+            - @astina_form.confirmation_mailer
+        tags:
+            - { name: kernel.event_listener, event: astina_form.form_success, method: onSuccess }
+            
+    astina_form.submissions_exporter:
+        class: %astina_form.submissions_exporter.class%
+        arguments:
+            - @translator
+            - %astina_form.submissions_exporter.temp_dir%
+
+    astina_form.repository.form_config:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments:
+            - AstinaFormBundle:FormConfig
+
+    astina_form.repository.form_config_field:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments:
+            - AstinaFormBundle:FormConfigField
+
+    astina_form.repository.form_submission:
+        class: Astina\Bundle\FormBundle\Entity\FormSubmissionRepository
+        factory_service: doctrine
+        factory_method: getRepository
+        arguments:
+            - AstinaFormBundle:FormSubmission
+
+    astina_form.twig_extension:
+        class: %astina_form.twig_extension.class%
+        arguments:
+            - @astina_form.form_tracker
+        tags:
+            - { name: twig.extension }
+
+    astina_form.help_type_extension:
+        class: Astina\Bundle\FormBundle\Form\Type\HelpTypeExtension
+        tags:
+            - { name: form.type_extension, alias: form }
+
+    astina_form.type.static_title:
+        class: Astina\Bundle\FormBundle\Form\Type\StaticTitleType
+        tags:
+            - { name: form.type, alias: static_title }
+
+    astina_form.type.static_text:
+        class: Astina\Bundle\FormBundle\Form\Type\StaticTextType
+        tags:
+            - { name: form.type, alias: static_text }

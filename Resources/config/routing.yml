@@ -1,0 +1,19 @@
+astina_form_admin:
+    path: /
+    defaults: { _controller: AstinaFormBundle:Admin:index }
+
+astina_form_view:
+    path: /{id}/view
+    defaults: { _controller: AstinaFormBundle:Admin:form }
+
+astina_form_submission:
+    path: /submission/{id}/view
+    defaults: { _controller: AstinaFormBundle:Admin:submission }
+
+astina_form_submission_delete:
+    path: /submission/{id}/delete
+    defaults: { _controller: AstinaFormBundle:Admin:submissionDelete }
+
+astina_form_export:
+    path: /export
+    defaults: { _controller: AstinaFormBundle:Admin:export }

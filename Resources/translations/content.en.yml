@@ -1,0 +1,20 @@
+Webcms_form_config: Form
+Success link: Success Page
+Notification address: Notification (E-Mail)
+Fields: Fields
+field_name: Name
+Type: Type
+Help: Help
+Options1: Options
+Options2: Title / Text
+Mandatory: Mandatory Field
+Default value: Default Value
+Submit label: Button Label
+
+field_help_choice: e.g. "Monday;Tuesday;Wednesday"
+
+Confirmation email enabled: Confirmation mail for form user
+Confirmation email subject: Confirmation mail subject
+Confirmation email body: Confirmation mail body template
+form_help_confirmation_email_enabled: Field of type "E-Mail" is required
+form_help_confirmation_email_body: Placeholders : "[Field name]", e.g. "[Firstname]", "[Mail]". Consecutive submit number "[Counter]"

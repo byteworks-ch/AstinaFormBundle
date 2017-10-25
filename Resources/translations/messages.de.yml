@@ -1,0 +1,10 @@
+forms: Formulare
+form_name: Name
+form_page: Seite
+form_url: URL
+form_submissions_count: Anzahl Eingaben
+form_last_submission: Letzte Eingabe
+form_submission: Eingabe
+form_submission_date: Datum
+form_export_empty: Bitte wählen Sie mindestens ein Formular aus.
+form_export_filename: Formulardaten

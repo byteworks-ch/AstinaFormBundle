@@ -1,0 +1,28 @@
+{% extends 'AstinaFormBundle:Admin:layout.html.twig' %}
+
+{% block content %}
+
+    {% set form = submission.formConfig %}
+
+    <div class="page-header">
+        <div class="btn-group pull-right">
+            <a href="{{ path('astina_form_view', {'id': form.id}) }}" class="btn"><i class="icon-arrow-left"></i> {{ 'back' | trans }}</a>
+            <a href="{{ path('astina_form_submission_delete', {'id': submission.id}) }}" class="btn btn-danger" data-confirm="{{ 'confirm' | trans }}"><i class="icon-trash icon-white"></i> {{ 'delete' | trans }}</a>
+        </div>
+        <h1>{{ 'form_submission' | trans }}: #{{ submission.id }} ({{ form.name }})</h1>
+    </div>
+
+    <p>
+        {{ 'form_submission_date' | trans }}: {{ submission.created | date('d.m.Y H:i') }}
+    </p>
+
+    <table class="table table-striped">
+        {% for field in submission.fields %}
+            <tr>
+                <th style="width: 20%">{{ field.name }}</th>
+                <td>{{ field.value }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

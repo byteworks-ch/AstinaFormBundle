@@ -1,0 +1,14 @@
+fields: Input fields
+text: Text (single line)
+textarea: Text (multiple lines)
+email: E-Mail Address
+date: Date
+choice_checkbox: Checkbox
+choice_radio: Radio Buttons
+choice_select_single: Select (Single Choice)
+choice_select_multiple: Select (Multiple Choice)
+choice_newsletter: Newsletter
+
+labels: Labels
+static_title: Title
+static_text: Text

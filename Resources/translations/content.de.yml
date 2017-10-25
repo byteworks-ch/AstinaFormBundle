@@ -1,0 +1,20 @@
+Webcms_form_config: Formular
+Success link: Dankesseite
+Notification address: Benachrichtigung (E-Mail)
+Fields: Felder
+field_name: Name
+Type: Art
+Help: Hilfe
+Options1: Optionen
+Options2: Titel / Text
+Mandatory: Pflichtfeld
+Default value: Standardwert
+Submit label: Button-Beschriftung
+
+field_help_choice: z.B. "Montag;Dienstag;Mittwoch"
+
+Confirmation email enabled: Bestätigungsemail an Benutzer
+Confirmation email subject: Bestätigungsemail Betreff
+Confirmation email body: Bestätigungsemail Textvorlage
+form_help_confirmation_email_enabled: Es muss ein Feld vom Typ "E-Mail-Adresse" vorhanden sein
+form_help_confirmation_email_body: Platzhalterformat: "[Feld Name]". Der Name in eckigen Klammern muss exakt dem jeweiligen Eintrag im Feld 'Name' entsprechen. Beispiel: "[Vorname]", "[E-Mail]". Fortlaufende Nummer mit "[Counter]" ausgeben.

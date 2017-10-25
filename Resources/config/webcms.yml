@@ -1,0 +1,6 @@
+astina_webcms:
+    content_types:
+        webcms_form_config:
+            class: Astina\Bundle\FormBundle\Entity\FormConfig
+            template: AstinaFormBundle:Form:default.html.twig
+            preview_template: AstinaFormBundle:Form:preview.html.twig

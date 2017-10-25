@@ -1,0 +1,10 @@
+.form-content textarea {
+    height: 100%
+}
+
+.field-type-webcms_form_config_field .form-group input,
+.field-type-webcms_form_config_field .form-group select,
+.field-type-webcms_form_config_field .form-group textarea 
+{
+    width: 100%;
+}

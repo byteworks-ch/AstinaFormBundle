@@ -1,0 +1,10 @@
+forms: Forms
+form_name: Name
+form_page: Page
+form_url: URL
+form_submissions_count: Submissions
+form_last_submission: Last Submission
+form_submission: Submission
+form_submission_date: Date
+form_export_empty: Please select at least one form.
+form_export_filename: Form_Data

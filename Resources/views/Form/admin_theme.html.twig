@@ -1,0 +1,192 @@
+{% block static_title_widget %}
+    <h1>{{ value }}</h1>
+{% endblock %}
+
+
+{% block static_text_widget %}
+    <p>{{ value }}</p>
+{% endblock %}
+
+
+{% block webcms_form_config_widget %}
+
+    {{- block('form_widget_compound') -}}
+
+    <link href="{{ asset('bundles/astinaform/css/main.css') }}" rel="stylesheet">
+
+    <script type="text/javascript">
+
+        $(function() {
+
+            var elem = $("#webcms_form_config_fields");
+
+            elem.sortable({
+                items: "> .field-type-webcms_form_config_field",
+                handle: ".sort-handle",
+                containment: "parent",
+                scroll: true,
+                stop: updateFieldPositions
+            });
+
+            function updateFieldPositions()
+            {
+                var position = 0;
+                elem.find(".field-type-webcms_form_config_field").each(function() {
+                    $(this).find("[id$='_position']").val(position);
+                    position = position + 1;
+                });
+            }
+
+            // reset positions when an element is added
+            elem.on("click", "> a:has(.icon-plus)", function() {
+                window.setTimeout(updateFieldPositions, 100);
+            });
+
+            // show/hide field options
+            elem.on("change", "select[id$='_type']", function() {
+                var elemSelect = $(this);
+                var root = elemSelect.parents('.field-type-webcms_form_config_field');
+                var type = elemSelect.val();
+
+                var elemName =      root.find('.js-field-name');
+                var elemHelp =      root.find('.js-field-help');
+                var elemOptions1 =  root.find('.js-field-options1');
+                var elemOptions2 =  root.find('.js-field-options2');
+                var elemMandatory = root.find('.js-field-mandatory');
+
+                var isStatic = type.lastIndexOf('static_', 0) === 0;
+                var isChoice = type.lastIndexOf('choice_', 0) === 0;
+                    
+                elemName.css('visibility', 'visible');
+                elemMandatory.css('visibility', 'visible');
+                elemHelp.show();
+                elemOptions1.hide();
+                elemOptions2.hide();
+                
+                if (isChoice) {
+                    elemOptions1.show();
+                }
+                
+                if (isStatic) {
+                    elemName.css('visibility', 'hidden').find('input').val('-');
+                    elemMandatory.css('visibility', 'hidden').find('input').attr('checked', false)
+                    elemHelp.hide();
+                    elemOptions2.show();
+                } 
+                else if(elemName.find('input').val() == '-') {
+                    elemName.find('input').val('');
+                }
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block webcms_form_config_field_row %}
+
+    {% set isStatic = form.type.vars.value matches '/^static/' %}
+    {% set isChoice = form.type.vars.value matches '/^choice_/' %}
+    
+    <div class="controls-row field-type-webcms_form_config_field">
+        <div class="row-fluid">
+            <div class="span10">
+
+                <div class="row-fluid">
+                    <div class="span7 form-group js-field-type">
+                        {{ form_label(form.type) }}
+                        {{ form_widget(form.type) }}
+                        {{ form_errors(form.type) }}
+                    </div>
+
+                    <div class="span5 form-group js-field-name" {{ isStatic ? 'style="visibility: hidden;"' }}>
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span12 form-group js-field-options1" {{ not isChoice ? 'style="display: none;"' }}>
+                        {{ form_label(form.options1) }}
+                        {{ form_widget(form.options1) }}
+                        {{ form_errors(form.options1) }}
+                        <p><span class="muted">{{ 'field_help_choice' | trans({}, 'content') }}</span></p>
+                    </div>
+                </div>
+                
+                <div class="row-fluid">
+                    <div class="span12 form-group js-field-options2" {{ not isStatic ? 'style="display: none;"' }}>
+                        {{ form_label(form.options2) }}
+                        {{ form_widget(form.options2) }}
+                        {{ form_errors(form.options2) }}
+                    </div>
+                </div>
+                
+                <div class="row-fluid">
+                    <div class="span12 form-group js-field-help" {{ isStatic ? 'style="display: none;"' }}>
+                        {{ form_label(form.help) }}
+                        {{ form_widget(form.help) }}
+                        {{ form_errors(form.help) }}
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="span1 form-group js-field-mandatory" {{ isStatic ? 'style="visibility: hidden;"' }}>
+                {{ form_label(form.mandatory) }}
+                {{ form_widget(form.mandatory) }}
+                {{ form_errors(form.mandatory) }}
+            </div>
+            <div class="span1">
+                <span class="sort-handle icon-move" style="margin-top: 30px; cursor: pointer;"></span>
+            </div>
+        </div>
+        {{ form_widget(form.position) }}
+    </div>
+
+{% endblock %}
+
+
+{# override AstinaWebcmsBundle:Form:content.html.twig to add help #}
+{% block textarea_row %}
+    {% spaceless %}
+        <div class="controls-row field-type-{{ form.vars.form.vars.block_prefixes[1] }}">
+            {{ form_label(form, label|default(null)) }}
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+            {% if help is defined and help %}
+                <p><span class="muted">{{ help|trans({}, 'content') }}</span></p>
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{# override AstinaWebcmsBundle:Form:content.html.twig to add help #}
+{% block choice_row %}
+    {% spaceless %}
+        <div class="controls-row field-type-{{ form.vars.form.vars.block_prefixes[1] }}">
+            {{ form_label(form, label|default(null)) }}
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+            {% if help is defined and help %}
+                <p><span class="muted">{{ help|trans({}, 'content') }}</span></p>
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{# override AstinaWebcmsBundle:Form:content.html.twig to add help #}
+{% block text_row %}
+    {% spaceless %}
+        <div class="controls-row field-type-{{ form.vars.form.vars.block_prefixes[1] }}">
+            {{ form_label(form, label|default(null)) }}
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+            {% if help is defined and help %}
+                <p><span class="muted">{{ help|trans({}, 'content') }}</span></p>
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% if content.title %}
+    <h1>{{ content.title }}</h1>
+{% endif %}
+
+{% set form = webcms_form(content) %}
+
+{{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
