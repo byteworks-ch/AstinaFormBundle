@@ -21,9 +21,10 @@ class FormType extends AbstractType
     const FORM_CONFIG_ID_FIELD = '_form_config_id';
 
 
-    function __construct($webcmsRouter)
+    function __construct($webcmsRouter, $recaptchaSiteKey)
     {
         $this->webcmsRouter = $webcmsRouter;
+        $this->recaptchaSiteKey = $recaptchaSiteKey;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -40,6 +41,10 @@ class FormType extends AbstractType
         $builder->add(self::FORM_CONFIG_ID_FIELD, 'hidden', array(
             'data' => $formConfig->getId(),
         ));
+
+        if (!empty($this->recaptchaSiteKey)) {
+            $builder->add('recaptcha', 'recaptcha');
+        }
 
         $builder->add('send', 'submit', array(
             'label' => ($formConfig->getSubmitLabel() ?: 'send'),

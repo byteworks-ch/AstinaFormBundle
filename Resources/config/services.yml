@@ -19,12 +19,16 @@ parameters:
     astina_form.submissions_exporter.temp_dir: %kernel.cache_dir%
     astina_form.twig_extension.class: Astina\Bundle\FormBundle\Twig\FormExtension
 
+    astina_form.form.recaptcha.site_key: ~
+    astina_form.form.recaptcha.secret_key: ~
 
 services:
     astina_form.form:
         class: %astina_form.form.class%
         arguments:
             - @astina_webcms.router
+            - %astina_form.form.recaptcha.site_key%
+
         tags:
             - { name: form.type, alias: webcms_form }
 
@@ -48,6 +52,7 @@ services:
             - @astina_webcms.router
             - @event_dispatcher
             - %astina_form.form_type%
+            - %astina_form.form.recaptcha.secret_key%
 
     astina_form.notification_mailer:
         class: %astina_form.notification_mailer.class%
@@ -131,3 +136,10 @@ services:
         class: Astina\Bundle\FormBundle\Form\Type\StaticTextType
         tags:
             - { name: form.type, alias: static_text }
+
+    astina_form.type.recaptcha:
+        class: Astina\Bundle\FormBundle\Form\Type\RecaptchaType
+        arguments:
+            - %astina_form.form.recaptcha.site_key%
+        tags:
+            - { name: form.type, alias: recaptcha }
