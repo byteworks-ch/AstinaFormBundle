@@ -27,8 +27,8 @@ services:
         class: %astina_form.form.class%
         arguments:
             - @astina_webcms.router
+            - @translator
             - %astina_form.form.recaptcha.site_key%
-
         tags:
             - { name: form.type, alias: webcms_form }
 

@@ -9,24 +9,44 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class FormType extends AbstractType
 {
+
+    const FORM_CONFIG_ID_FIELD = '_form_config_id';
 
     /**
      * @var WebcmsRouter
      */
     private $webcmsRouter;
 
-    const FORM_CONFIG_ID_FIELD = '_form_config_id';
+
+    /**
+     * @var TranslatorInterface
+     */
+    public $translator;
 
 
-    function __construct($webcmsRouter, $recaptchaSiteKey)
+    /**
+     * FormType constructor.
+     *
+     * @param                     $webcmsRouter
+     * @param                     $recaptchaSiteKey
+     * @param TranslatorInterface $translator
+     */
+    function __construct($webcmsRouter, TranslatorInterface $translator, $recaptchaSiteKey)
     {
         $this->webcmsRouter = $webcmsRouter;
+        $this->translator = $translator;
         $this->recaptchaSiteKey = $recaptchaSiteKey;
     }
 
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /** @var FormConfig $formConfig */
@@ -51,6 +71,11 @@ class FormType extends AbstractType
         ));
     }
 
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param FormConfigField      $field
+     */
     protected function addField(FormBuilderInterface $builder, FormConfigField $field)
     {
         $type = $this->getFieldType($field);
@@ -76,6 +101,12 @@ class FormType extends AbstractType
         $builder->add($field->getId(), $type, $options);
     }
 
+
+    /**
+     * @param FormConfigField $field
+     *
+     * @return string
+     */
     protected function getFieldType(FormConfigField $field)
     {
         $type = $field->getType();
@@ -87,6 +118,12 @@ class FormType extends AbstractType
         return $type;
     }
 
+
+    /**
+     * @param FormConfigField $field
+     *
+     * @return array
+     */
     protected function createFieldConstraints(FormConfigField $field)
     {
         $constraints = array();
@@ -101,6 +138,12 @@ class FormType extends AbstractType
         return $constraints;
     }
 
+
+    /**
+     * @param FormConfigField $field
+     *
+     * @return array
+     */
     protected function createAdditionalFieldOptions(FormConfigField $field)
     {
         $options = array();
@@ -143,6 +186,12 @@ class FormType extends AbstractType
         return $options;
     }
 
+
+    /**
+     * @param $options
+     *
+     * @return array
+     */
     protected function createFieldChoices($options)
     {
         $options = explode(';', $options);
@@ -161,6 +210,10 @@ class FormType extends AbstractType
         return $choices;
     }
 
+
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -168,6 +221,10 @@ class FormType extends AbstractType
         ));
     }
 
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'webcms_form';
