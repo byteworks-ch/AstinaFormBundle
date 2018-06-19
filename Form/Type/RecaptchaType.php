@@ -46,13 +46,23 @@ class RecaptchaType extends AbstractType
         return parent::buildView($view, $form, $options);
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'mapped' => false,
+            'label' => false,
+        ));
+    }
 
     /**
      * @return null|string|\Symfony\Component\Form\FormTypeInterface
      */
     public function getParent()
     {
-        return 'hidden';
+        return 'text';
     }
 
 
