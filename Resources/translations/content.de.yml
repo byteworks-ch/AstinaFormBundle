@@ -17,4 +17,4 @@ Confirmation email enabled: Bestätigungsemail an Benutzer
 Confirmation email subject: Bestätigungsemail Betreff
 Confirmation email body: Bestätigungsemail Textvorlage
 form_help_confirmation_email_enabled: Es muss ein Feld vom Typ "E-Mail-Adresse" vorhanden sein
-form_help_confirmation_email_body: Platzhalterformat: "[Feld Name]". Der Name in eckigen Klammern muss exakt dem jeweiligen Eintrag im Feld 'Name' entsprechen. Beispiel: "[Vorname]", "[E-Mail]". Fortlaufende Nummer mit "[Counter]" ausgeben.
+form_help_confirmation_email_body: 'Platzhalterformat: "[Feld Name]". Der Name in eckigen Klammern muss exakt dem jeweiligen Eintrag im Feld "Name" entsprechen. Beispiel: "[Vorname]", "[E-Mail]". Fortlaufende Nummer mit "[Counter]" ausgeben.'

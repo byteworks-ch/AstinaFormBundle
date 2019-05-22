@@ -17,4 +17,4 @@ Confirmation email enabled: Confirmation mail for form user
 Confirmation email subject: Confirmation mail subject
 Confirmation email body: Confirmation mail body template
 form_help_confirmation_email_enabled: Field of type "E-Mail" is required
-form_help_confirmation_email_body: Placeholders : "[Field name]", e.g. "[Firstname]", "[Mail]". Consecutive submit number "[Counter]"
+form_help_confirmation_email_body: 'Placeholders : "[Field name]", e.g. "[Firstname]", "[Mail]". Consecutive submit number "[Counter]"'
