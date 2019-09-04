@@ -18,7 +18,7 @@
     "minimum-stability": "stable",
     "require": {
         "origammi/webcms-bundle": ">=4.1.9,<5.0",
-        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "^3.0",
         "symfony/monolog-bundle": "~2.4"
     },
     "require-dev": {
